@@ -13,7 +13,9 @@ def main(provider_url: str, action: str, **kwargs) -> None:
 
 
 def _print_balance(w3: Web3, account: str, *args, **kwargs) -> None:
-    print(f'Balance: {w3.eth.get_balance(account)}')
+    wei = w3.eth.get_balance(account)
+    ether = w3.fromWei(wei, 'ether')
+    print(f'Balance: {ether} ether')
 
 
 def _get_block_data(w3: Web3, block_number: int) -> BlockData:
