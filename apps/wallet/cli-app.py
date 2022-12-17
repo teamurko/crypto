@@ -1,5 +1,4 @@
 import argparse
-from pprint import pprint
 from typing import Optional
 
 from web3 import Web3
@@ -14,12 +13,19 @@ def main(provider_url: str, action: str, account: Optional[str]) -> None:
 
 
 def _get_balance(w3: Web3, account: str) -> None:
-    pprint(w3.eth.get_balance(account))
+    print(f'Balance: {w3.eth.get_balance(account)}')
 
 
 def _get_latest_block_data(w3: Web3, *args, **kwargs) -> None:
     latest_block_info: BlockData = w3.eth.get_block('latest')
-    pprint(latest_block_info)
+    print(f'Block #{w3.eth.block_number}:')
+    for field, value in latest_block_info.items():
+        if isinstance(value, list):
+            print(f'  {field}:')
+            for e in value:
+                print(f'    {e!r}')
+        else:
+            print(f'  {field}: {value!r}')
 
 
 def _create_client(provider_url: str) -> Web3:
